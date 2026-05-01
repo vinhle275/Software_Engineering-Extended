@@ -1,0 +1,78 @@
+\newpage
+% --- START OF TASK 4 REPORT (HEADING LEVEL REDUCED BY 1) ---
+
+\section{Các phương pháp hiện thực}
+
+\subsection{Nhóm giải pháp Lock-based}
+
+Nhóm phương pháp này vận hành theo nguyên tắc ngăn chặn tranh chấp từ gốc, đảm bảo tính nhất quán dữ liệu bằng cách thiết lập quyền truy cập độc quyền tại một thời điểm nhất định.
+
+\begin{itemize}
+    \item \textbf{Mutex Counter}: 
+    Đặc điểm nổi bật nhất của Mutex là tính \textbf{an toàn và tiết kiệm tài nguyên CPU} khi phải chờ đợi lâu. Khi khóa đã bị chiếm giữ, luồng đang chờ sẽ được hệ điều hành sẽ giải phóng CPU cho tác vụ khác. 
+    \item \textbf{Semaphore Counter}: 
+    Phụ thuộc nặng nề vào sự điều phối của hệ điều hành để quản lý hàng đợi và đánh thức luồng.
+
+    \item \textbf{SpinLock Counter}: 
+    Ngược lại với Mutex, SpinLock giữ luồng ở trạng thái \textbf{luôn sẵn sàng} bằng cách liên tục chạy vòng lặp kiểm tra điều kiện khóa. 
+    \textit{Ưu điểm:} Loại bỏ hoàn toàn độ trễ của việc chuyển đổi ngữ cảnh, giúp phản ứng tức thì ngay khi khóa trống. 
+    \textit{Nhược điểm:} Gây lãng phí tài nguyên cực lớn vì CPU phải hoạt động 100\% công suất chỉ để "chờ đợi". 
+    
+    \item \textbf{Ticket Lock Counter}: 
+Trong khi SpinLock thông thường có thể khiến một luồng bị chết đói (\textit{starvation}), Ticket Lock đảm bảo mọi luồng đều được phục vụ theo đúng trình tự thời gian đến. Đây là cơ chế có tính dự báo cao, giúp hiệu năng hệ thống ổn định và đồng đều, tránh được các điểm nghẽn bất ngờ khi có quá nhiều luồng cùng tranh giành tài nguyên.
+\end{itemize}
+
+\subsection{Nhóm kỹ thuật Atomic-based}
+
+Nhóm phương pháp này khai thác trực tiếp các chỉ thị cấp thấp của phần cứng để thao tác trên dữ liệu chia sẻ mà không cần sử dụng cơ chế khóa (lock-free), giúp giảm thiểu tối đa chi phí đồng bộ hóa.
+
+\begin{itemize}
+    \item \textbf{Atomic Relaxed Counter:} 
+    Đặc điểm nổi bật nhất của phương pháp này là \textbf{hiệu năng tối đa và chi phí phần cứng thấp nhất}. Nó hoạt động dựa trên nguyên tắc chỉ đảm bảo tính nguyên tử cho chính phép toán đang thực hiện, loại bỏ hoàn toàn các rào cản bộ nhớ dùng để đồng bộ thứ tự.
+    
+    \item \textbf{Atomic Sequential Consistency Counter:} Đây là cơ chế mang lại \textbf{mức độ an toàn và tính trật tự cao nhất} trong các mô hình bộ nhớ. Đặc điểm chính là sự cam kết về một global ordering, đảm bảo rằng mọi luồng trong hệ thống đều quan sát thấy chuỗi thay đổi trạng thái theo cùng một thứ tự duy nhất. 
+\end{itemize}
+
+\subsection{Nhóm thuật toán Compare-And-Swap}
+
+Đây là kỹ thuật nền tảng của lập trình không khóa, áp dụng mô hình optimistic concurrency control. Thay vì chặn truy cập, các luồng sẽ thực hiện tính toán cục bộ và chỉ cam kết thay đổi vào bộ nhớ chung nếu trạng thái hệ thống chưa bị luồng khác can thiệp trong quá trình đó.
+
+\begin{itemize}
+    \item \textbf{CAS Strong Counter:} 
+    Đặc điểm chính của phương pháp này là tính tất định và sự ổn định cao. Nó cung cấp sự đảm bảo tuyệt đối rằng thao tác sẽ không bao giờ gặp phải "thất bại giả" (spurious failure)—nghĩa là phép gán chỉ thất bại khi và chỉ khi dữ liệu thực tế đã bị thay đổi bởi một luồng khác. Mặc dù giúp đơn giản hóa logic chương trình, cơ chế này có thể tạo ra chi phí phần cứng cao hơn trên một số kiến trúc vi xử lý do CPU phải thực hiện nhiều bước kiểm tra nội bộ để duy trì cam kết này.
+
+    \item \textbf{CAS Weak Counter:} 
+    Đây là phiên bản được tối ưu hóa tối đa cho hiệu suất phần cứng. Đặc điểm nổi bật là nó cho phép xảy ra "thất bại giả" do nhiễu tín hiệu đường truyền hoặc ngắt hệ thống ngay cả khi dữ liệu chưa thay đổi. Tuy nhiên, nhờ ánh xạ trực tiếp tới các chỉ thị máy đơn giản và tự nhiên hơn của CPU, cơ chế này thường mang lại throughput cao hơn đáng kể trong các thuật toán sử dụng retry loops liên tục.
+\end{itemize}
+
+
+\subsection{Nhóm cơ chế CAS tích hợp Exponential Backoff}
+
+Đây là chiến lược nâng cao nhằm giải quyết bài toán suy giảm hiệu năng do tranh chấp đường truyền khi mật độ luồng xử lý tăng cao.
+
+\begin{itemize}
+    \item \textbf{CAS Strong/Weak Backoff:} 
+    Phương pháp này tích hợp thuật toán exponential backoff để điều tiết tần suất truy cập. Thay vì liên tục chiếm dụng bus bộ nhớ để thử lại khi gặp xung đột, luồng sẽ tạm dừng hoạt động trong một khoảng thời gian tăng dần thích ứng với mức độ tắc nghẽn. Cơ chế này giúp giảm thiểu đáng kể lưu lượng đồng bộ cache, từ đó giải phóng băng thông cho luồng đang nắm giữ tài nguyên hoàn thành tác vụ nhanh hơn, giúp tăng cường khả năng mở rộng của toàn hệ thống.
+\end{itemize}
+
+
+
+
+
+
+\begin{table}[H!]
+\centering
+\caption{Tóm tắt đặc tính kỹ thuật của các phương pháp}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Phương pháp} & \textbf{Cơ chế} & \textbf{An toàn bộ nhớ} & \textbf{Đặc điểm nổi bật} \\ \hline
+Mutex & Lock & Cao & Chuẩn C++, dễ dùng \\ \hline
+Semaphore & Lock/Signal & Cao & Chi phí System Call lớn \\ \hline  % <--- Dòng mới thêm
+SpinLock & Spin & Trung bình & Hiệu quả với lock ngắn \\ \hline
+TicketLock & Spin & Cao & Công bằng (FIFO) \\ \hline
+Atomic Relaxed & Atomic & Thấp & Hiệu năng tối đa \\ \hline
+Atomic SeqCst & Atomic & Cao & Nhất quán tuyệt đối \\ \hline
+CAS Strong & Lock-free & Trung bình & Không thất bại giả \\ \hline
+CAS Backoff & Lock-free & Trung bình & Tối ưu tranh chấp lớn \\ \hline
+\end{tabular}
+\end{table}

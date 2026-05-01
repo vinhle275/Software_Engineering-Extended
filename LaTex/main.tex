@@ -1,0 +1,361 @@
+\documentclass[a4paper,12pt]{article}
+
+%------------------------- packages -------------------------%
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\usepackage[unicode,hidelinks]{hyperref}    % for reference
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{fancyhdr}  % Ensure this is loaded last
+\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{longtable}
+\usetikzlibrary{calc}
+\usepackage{tabularx}
+\usepackage{array}  % For customizing row height
+\usepackage{multirow} %dùng cho phần vẽ bảng ở phần lý thuyết
+\usepackage[utf8]{inputenc}
+\usepackage[utf8]{vietnam}
+\usepackage{enumitem}
+\usepackage{adjustbox}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{float}
+\usepackage{array}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{caption}
+\usepackage{inconsolata}
+\usepackage{listings}
+\usepackage{tocloft} % for customizing TOC
+\usepackage{indentfirst} % Bắt buộc đoạn đầu tiên sau tiêu đề phải thụt đầu dòng
+\usepackage{subcaption}
+\setlength{\parindent}{1.5em} % Thiết lập độ rộng thụt vào (có thể chỉnh thành 1cm, 2em...)
+
+% for code and result
+\lstset{
+  breaklines=true,
+  breakatwhitespace=true,
+  basicstyle=\ttfamily\small, % Dùng font chữ nhỏ hơn
+  columns=fullflexible
+}
+\usepackage[svgnames]{xcolor} % Cung cấp nhiều màu sắc hơn
+\tcbset{
+  colback=AliceBlue,       % Màu nền xanh rất nhạt
+  colframe=SteelBlue,      % Màu viền xanh dương đậm
+  coltitle=MidnightBlue,   % Màu tiêu đề xanh đen
+  coltext=DarkSlateGray,   % Màu chữ chính
+  fonttitle=\bfseries      % Font chữ in đậm cho tiêu đề
+}
+
+
+%------------------------- set up -------------------------%
+% Set the margins
+\geometry{
+    left=2cm,
+    right=2cm,
+    top=2.5cm,
+    bottom=2.5cm,
+}
+
+%------------------------- header & footer -------------------------%
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\setlength{\headheight}{30pt}
+\pagestyle{fancy}
+
+\fancyhead{}    % clear all header fields
+\fancyhead[L]{
+    \begin{tabular}{ll}
+        \begin{picture}(10,10)
+            \put(0,-7){\includegraphics[width=8mm]{hcmut.png}}
+        \end{picture}&
+        \begin{tabular}{l}
+            {\ttfamily Trường Đại học Bách Khoa Tp. Hồ Chí Minh} \\
+            {\ttfamily Khoa Khoa học và Kỹ thuật Máy tính} \\
+        \end{tabular} 	
+    \end{tabular}
+}
+
+\fancyfoot{}    % clear all footer fields
+
+\fancyfoot[R]{\footnotesize {\ttfamily Trang {\thepage}/\pageref{LastPage}}}
+
+%------------------------- title format settings -------------------------%
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+% Multi-layered Blue Border Definition
+\newcommand{\coverpageborder}{
+    \begin{tikzpicture}[remember picture,overlay,inner sep=0,outer sep=0]
+        \draw[blue!70!black,line width=4pt] 
+            ([xshift=-1.5cm,yshift=-2cm]current page.north east) coordinate (A)--([xshift=1.5cm,yshift=-2cm]current page.north west) coordinate(B)--([xshift=1.5cm,yshift=2cm]current page.south west) coordinate (C)--([xshift=-1.5cm,yshift=2cm]current page.south east) coordinate(D)--cycle;
+        \draw ([yshift=0.5cm,xshift=-0.5cm]A)-- ([yshift=0.5cm,xshift=0.5cm]B)--
+        ([yshift=-0.5cm,xshift=0.5cm]B) --([yshift=-0.5cm,xshift=-0.5cm]B)--([yshift=0.5cm,xshift=-0.5cm]C)--([yshift=0.5cm,xshift=0.5cm]C)--([yshift=-0.5cm,xshift=0.5cm]C)-- ([yshift=-0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=-0.5cm]D)--([yshift=0.5cm,xshift=0.5cm]D)--([yshift=-0.5cm,xshift=0.5cm]A)--([yshift=-0.5cm,xshift=-0.5cm]A)--([yshift=0.5cm,xshift=-0.5cm]A);
+        \draw ([yshift=-0.3cm,xshift=0.3cm]A)-- ([yshift=-0.3cm,xshift=-0.3cm]B)--
+        ([yshift=0.3cm,xshift=-0.3cm]B) --([yshift=0.3cm,xshift=0.3cm]B)--([yshift=-0.3cm,xshift=0.3cm]C)--([yshift=-0.3cm,xshift=-0.3cm]C)--([yshift=0.3cm,xshift=-0.3cm]C)-- ([yshift=0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=0.3cm]D)--([yshift=-0.3cm,xshift=-0.3cm]D)--([yshift=0.3cm,xshift=-0.3cm]A)--([yshift=0.3cm,xshift=0.3cm]A)--([yshift=-0.3cm,xshift=0.3cm]A);
+    \end{tikzpicture}
+}
+
+%------------------------- tocloft settings -------------------------%
+\renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}
+
+
+\setlength{\cftbeforesecskip}{0pt} % Space before each section entry
+\setlength{\cftsecnumwidth}{2em}   % Width of the section number
+\setlength{\cftsubsecindent}{3em}  % Indentation for subsections
+\setlength{\cftsubsecnumwidth}{3em}% Width of the subsection number
+\setlength{\cftsubsubsecindent}{5em} % Indentation for subsubsections
+\setlength{\cftsubsubsecnumwidth}{4em} % Width of the subsubsection number
+
+%------------------------- body -------------------------%
+\begin{document}
+
+%-------------------- cover --------------------%
+\begin{titlepage}
+    \centering
+    
+    % Draw the cover page border
+    \coverpageborder
+    
+    % University and Department Info
+    \textbf{\large{ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH}}\\[0.1cm]
+    \textbf{\large{TRƯỜNG ĐẠI HỌC BÁCH KHOA}}\\[0.1cm]
+    \textbf{\large{KHOA KHOA HỌC VÀ KỸ THUẬT MÁY TÍNH}}\\[0.25cm]
+    
+    % Logo Positioning
+    \includegraphics[width=0.5\textwidth]{hcmut.png}\\[0.3cm]
+    
+    % Title and Subtitle
+    \textbf{\LARGE{BÁO CÁO BTL LẦN 2}}\\[0.2cm]
+    \textbf{\Large{CÔNG NGHỆ PHẦN MỀM (CO3001)}}\\[0.6cm]
+    
+    % Group Info
+    \textbf{\large{Lớp: A01 - Nhóm 1}}\\[0.2cm]
+    \textbf{\large{GVHD: Mai Đức Trung}}\\[0.2cm]
+    \begin{table}[h]
+    \renewcommand{\arraystretch}{1.5}  % Điều chỉnh chiều cao hàng (1.5 lần bình thường)
+    \centering
+    \begin{adjustbox}{max width=\textwidth} % Đảm bảo bảng vừa với chiều rộng trang
+    \begin{tabular}{|c|l|c|c|c|}
+        \hline
+        \textbf{STT} & \multicolumn{1}{c|}{\textbf{Họ và tên}} & \textbf{MSSV} & \textbf{Tên lớp} & \textbf{Tên ngành} \\ \hline
+        1 & Nguyễn Văn Hùng & 2311301 & A01 & Kỹ thuật máy tính \\ \hline
+        2 & Trần Minh Trí & 2313626 & A01 & Kỹ thuật máy tính \\ \hline
+        3 & Nguyễn Lưu Khánh Trình & 2313638 & A01 & Kỹ thuật máy tính \\ \hline
+        4 & Nguyễn Tô Quốc Việt & 2313898 & A01 & Kỹ thuật máy tính \\ \hline
+        5 & Lê Công Vinh & 2313912 & A01 & Kỹ thuật máy tính \\ \hline
+    \end{tabular}
+    \end{adjustbox}
+\end{table}
+    
+    \vspace{1.5cm} % Adjust space between the table and the advisor section
+   
+    
+    % Date
+    \textbf{\large{THÀNH PHỐ HỒ CHÍ MINH, THÁNG 4 NĂM 2026}}
+\end{titlepage}
+
+
+%------------------------- re-apply fancy page style -------------------------%
+\pagestyle{fancy}
+
+%------------------------- sections -------------------------%
+
+
+\newpage
+\setstretch{1.25}
+\renewcommand{\baselinestretch}{1.25}
+
+%=================== BODY CONTENT ===================%
+
+\newpage
+    {\large \textbf{BẢNG PHÂN CHIA CÔNG VIỆC}} \\[1.5ex] 
+\begin{table}[h]
+    \centering
+    % Dòng chữ to chỉ định tên bảng
+
+    
+    \renewcommand{\arraystretch}{2.0}  % Điều chỉnh chiều cao hàng (tăng lên 2.0 để cao hơn)
+    \begin{adjustbox}{max width=\textwidth} % Đảm bảo bảng vừa với chiều rộng trang
+    \begin{tabular}{|c|l|c|c|c|}
+        \hline
+        \textbf{STT} & \multicolumn{1}{c|}{\textbf{Họ và tên}} & \textbf{MSSV} & \textbf{Đóng góp} & \textbf{Công việc cá nhân} \\ \hline
+        1 & Nguyễn Văn Hùng & 2311301 & 100\% & Scenario cho nhóm thanh toán và các diagram tương ứng  \\ \hline
+        2 & Trần Minh Trí & 2313626 & 100\% & Scenario cho nhóm tiện ích bãi xe và các diagram tương ứng\\ \hline
+        3 & Nguyễn Lưu Khánh Trình & 2313638 & 100\% & Scenario cho nhóm các chức năng quản lý tài khoản và các diagram tương ứng \\ \hline
+        4 & Nguyễn Tô Quốc Việt & 2313898 & 100\% & Scenario cho nhóm Admin và các diagram tương ứng \\ \hline
+        5 & Lê Công Vinh & 2313912 & 100\% & Scenario cho nhóm IoT và các diagram tương ứng\\ \hline
+    \end{tabular}
+    \end{adjustbox}
+\end{table}
+    
+
+\newpage
+\setstretch{1.25}
+\tocloftpagestyle{fancy}
+\tableofcontents
+
+
+\newpage
+
+
+\cleardoublepage
+\addcontentsline{toc}{section}{\listfigurename} % Đưa danh mục hình ảnh vào mục lục
+\listoffigures
+\newpage
+
+
+% --- SECTION 1: INTRODUCTION ---
+\section{Requirements Engineering}
+
+\textbf{Mục tiêu:} Xác định các chức năng của hệ thống và những đối tượng sẽ tương tác với hệ thống Smart Event Reminder System (SERS).
+
+\subsection{Stakeholders}
+Hệ thống bao gồm các bên liên quan chính sau đây:
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Stakeholder} & \textbf{Vai trò (Role)} \\ \hline
+User & Tạo và quản lý các sự kiện cá nhân. \\ \hline
+Admin & Quản lý tài khoản người dùng và giám sát dữ liệu hệ thống (tùy chọn). \\ \hline
+Notification Service & Thành phần kỹ thuật chịu trách nhiệm kích hoạt và gửi nhắc nhở. \\ \hline
+Project Team & Nhóm sinh viên chịu trách nhiệm thiết kế, lập trình và kiểm thử. \\ \hline
+Instructor & Giảng viên đánh giá quy trình và chất lượng tài liệu kỹ thuật. \\ \hline
+\end{tabular}
+\caption{Danh sách các bên liên quan của dự án SERS}
+\end{table}
+
+\subsection{Yêu cầu hệ thống}
+
+\subsubsection{Functional Requirements - FR}
+\begin{enumerate}
+    \item \textbf{FR1:} Hệ thống cho phép người dùng tạo sự kiện mới.
+    \item \textbf{FR2:} Hệ thống cho phép người dùng nhập chi tiết sự kiện (tiêu đề, mô tả, ngày, giờ, địa điểm).
+    \item \textbf{FR3:} Hệ thống cung cấp chức năng chỉnh sửa thông tin các sự kiện đã tồn tại.
+    \item \textbf{FR4:} Hệ thống cho phép người dùng xóa các sự kiện khỏi danh sách quản lý.
+    \item \textbf{FR5:} Hệ thống tự động gửi nhắc nhở trước khi sự kiện bắt đầu theo thời gian đã cài đặt.
+    \item \textbf{FR6:} Hệ thống hỗ trợ chia sẻ sự kiện hoặc mời người dùng khác tham gia (tùy chọn).
+\end{enumerate}
+
+\subsubsection{Non-Functional Requirements - NFR}
+\begin{enumerate}
+    \item \textbf{NFR1 (Hiệu năng):} Thông báo nhắc nhở phải được gửi đến người dùng trong vòng tối đa 60 giây kể từ thời điểm kích hoạt.
+    \item \textbf{NFR2 (Tính khả dụng):} Giao diện người dùng phải trực quan, cho phép tạo một sự kiện trong ít hơn 3 phút thao tác.
+    \item \textbf{NFR3 (Độ tin cậy):} Dữ liệu sự kiện phải được lưu trữ an toàn và không bị mất khi ứng dụng khởi động lại hoặc mất kết nối mạng tạm thời.
+\end{enumerate}
+
+\subsection{User Stories và Tiêu chí chấp nhận}
+
+\begin{longtable}{|p{1cm}|p{6cm}|p{7cm}|}
+\hline
+\textbf{ID} & \textbf{User Story} & \textbf{Tiêu chí chấp nhận (Acceptance Criteria)} \\ \hline
+US1 & As a User, I want to create an event with a title, date, and time so that I can schedule my plans. & 1. Hệ thống lưu sự kiện khi điền đủ thông tin bắt buộc. \newline 2. Hiển thị thông báo lỗi nếu bỏ trống tiêu đề. \\ \hline
+US2 & As a User, I want to edit event details so that I can update my schedule if plans change. & 1. Thông tin mới được cập nhật ngay lập tức vào cơ sở dữ liệu. \newline 2. Người dùng có thể hủy chỉnh sửa mà không mất dữ liệu cũ. \\ \hline
+US3 & As a User, I want to delete an event so that I can remove cancelled activities. & 1. Yêu cầu xác nhận trước khi xóa. \newline 2. Sự kiện biến mất khỏi danh sách sau khi xóa thành công. \\ \hline
+US4 & As a User, I want to receive a reminder so that I am not late for my events. & 1. Thông báo xuất hiện đúng thời gian quy định. \newline 2. Nội dung thông báo hiển thị đúng tiêu đề sự kiện. \\ \hline
+US5 & As a User, I want to invite others so that we can coordinate schedules. & 1. Gửi lời mời qua email hoặc ID người dùng thành công. \newline 2. Người được mời nhận được thông báo về sự kiện. \\ \hline
+\end{longtable}
+
+\subsection{Ưu tiên yêu cầu theo mô hình MoSCoW}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{Phân loại} & \textbf{Tính năng / Yêu cầu} \\ \hline
+\textbf{Must have} & Tạo, sửa, xóa sự kiện; Chức năng gửi nhắc nhở tự động. \\ \hline
+\textbf{Should have} & Nhập chi tiết địa điểm; Xem danh sách sự kiện theo lịch. \\ \hline
+\textbf{Could have} & Mời người dùng khác; Chia sẻ sự kiện qua mạng xã hội. \\ \hline
+\textbf{Won't have} & Đồng bộ hóa với Google Calendar/Outlook (trong phiên bản này). \\ \hline
+\end{tabular}
+\caption{Bảng phân loại mức độ ưu tiên MoSCoW}
+\end{table}
+
+\subsection{Traceability Table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|l|}
+\hline
+\textbf{Mã FR} & \textbf{Mã User Story} & \textbf{Biểu đồ liên quan} \\ \hline
+FR1, FR2 & US1 & Sequence Diagram (Create Event) \\ \hline
+FR3 & US2 & State Diagram (Event Lifecycle) \\ \hline
+FR4 & US3 & State Diagram (Event Lifecycle) \\ \hline
+FR5 & US4 & Sequence Diagram (Notification) \\ \hline
+FR6 & US5 & Class Diagram (User-Event Relation) \\ \hline
+\end{tabular}
+\caption{Liên kết giữa Yêu cầu, User Story và Diagram}
+\end{table}
+
+
+
+
+\section{Tổng quan dự án}
+
+\subsection{Bối cảnh dự án}
+
+\subsection{Mục tiêu dự án}
+
+\subsection{Stakeholders}
+
+\subsection{Phạm vi dự án}
+
+\subsection{Quy trình nghiệp vụ cốt lõi}
+
+\textbf{Định nghĩa Phiên gửi xe:}
+
+Phiên gửi xe là một chuỗi hành động và trạng thái liên tục của một phương tiện từ khi tiến vào bãi đỗ cho đến khi rời đi và hoàn tất nghĩa vụ tài chính. Vòng đời của một phiên gửi xe dành cho người dùng có tài khoản được chia thành 4 giai đoạn chính:
+
+\begin{itemize}
+    \item \textbf{Giai đoạn 1 - Khởi tạo phiên:} Khách hàng quẹt thẻ RFID (hoặc thẻ định danh) tại cổng vào. Hệ thống xác thực danh tính, đối chiếu biển số xe qua camera và khởi tạo một "Phiên gửi xe" mới trên cơ sở dữ liệu với trạng thái \textit{Đang hoạt động}, ghi nhận thời điểm bắt đầu.
+    
+    \item \textbf{Giai đoạn 2 - Cập nhật vị trí và Tính giờ đỗ:} Sau khi qua cổng, khách hàng di chuyển xe đến vị trí đỗ. Cảm biến IoT tại vị trí đỗ phát hiện có xe và gửi tín hiệu về Gateway. Hệ thống trung tâm liên kết vị trí đỗ này với phiên gửi xe vừa khởi tạo, đồng thời duy trì trạng thái đỗ để làm cơ sở tính toán thời gian thực tế.
+    
+    \item \textbf{Giai đoạn 3 - Kết thúc phiên:} Khách hàng di chuyển xe ra cổng và quẹt thẻ. Hệ thống đối chiếu dữ liệu cổng ra với cổng vào, xác nhận hợp lệ và đóng phiên gửi xe. Trạng thái phiên chuyển sang \textit{Đã hoàn tất}, đồng thời ghi nhận thời điểm kết thúc.
+    
+        \item \textbf{Giai đoạn 4 - Xử lý hậu kỳ:} Dựa trên tổng thời gian của phiên đỗ xe và chính sách giá đã thiết lập, 
+    hệ thống tự động tính toán chi phí cho phiên này. Chi phí này được cộng dồn vào tài khoản ghi nợ của khách hàng. 
+    Lúc này, phiên gửi xe sẽ được chuyển sang trạng thái \textit{Chờ thanh toán}. Sau khi khách hàng hoàn tất nghĩa vụ tài chính vào cuối tháng, phiên sẽ chính thức khép lại với trạng thái \textit{Đã thanh toán}.
+
+    \item \textbf{Giai đoạn ngoại lệ: } Trong quá trình hoạt động, nếu xảy ra sự cố (khách mất thẻ, xe lưu bãi quá thời gian quy định, lỗi cảm biến, ...), phiên gửi xe sẽ bị treo ở trạng thái \textit{Ngoại lệ}. 
+    Lúc này, cần sự can thiệp thủ công của nhân viên vận hành để xác minh và đóng phiên hợp lệ.
+\end{itemize}
+
+
+
+\section{Tổng quan chức năng và ranh giới hệ thống}
+\subsection{Tổng quan chức năng}
+
+\subsubsection{Nhóm chức năng hướng người dùng}
+
+\subsubsection{Nhóm chức năng hướng vận hành}
+
+
+
+\section{Ranh giới hệ thống}
+
+\subsubsection{Bên trong ranh giới hệ thống}
+
+\subsubsection{Bên ngoài ranh giới hệ thống}
+
+
+\section{Screnario và các diagram cho các nhóm chức năng}
+\subsection{Nhóm chức năng quản lý tài khoản}
+%\input{contents/screnario_quanly_tk.tex}
+
+
+
+\section{UI design}
+
+\section{Các non-interactive functional requirement}
+
+\end{document}
