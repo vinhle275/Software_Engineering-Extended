@@ -146,9 +146,8 @@
         \textbf{STT} & \multicolumn{1}{c|}{\textbf{Họ và tên}} & \textbf{MSSV} & \textbf{Tên lớp} & \textbf{Tên ngành} \\ \hline
         1 & Nguyễn Văn Hùng & 2311301 & A01 & Kỹ thuật máy tính \\ \hline
         2 & Trần Minh Trí & 2313626 & A01 & Kỹ thuật máy tính \\ \hline
-        3 & Nguyễn Lưu Khánh Trình & 2313638 & A01 & Kỹ thuật máy tính \\ \hline
-        4 & Nguyễn Tô Quốc Việt & 2313898 & A01 & Kỹ thuật máy tính \\ \hline
-        5 & Lê Công Vinh & 2313912 & A01 & Kỹ thuật máy tính \\ \hline
+        3 & Nguyễn Tô Quốc Việt & 2313898 & A01 & Kỹ thuật máy tính \\ \hline
+        4 & Lê Công Vinh & 2313912 & A01 & Kỹ thuật máy tính \\ \hline
     \end{tabular}
     \end{adjustbox}
 \end{table}
@@ -187,9 +186,8 @@
         \textbf{STT} & \multicolumn{1}{c|}{\textbf{Họ và tên}} & \textbf{MSSV} & \textbf{Đóng góp} & \textbf{Công việc cá nhân} \\ \hline
         1 & Nguyễn Văn Hùng & 2311301 & 100\% & Scenario cho nhóm thanh toán và các diagram tương ứng  \\ \hline
         2 & Trần Minh Trí & 2313626 & 100\% & Scenario cho nhóm tiện ích bãi xe và các diagram tương ứng\\ \hline
-        3 & Nguyễn Lưu Khánh Trình & 2313638 & 100\% & Scenario cho nhóm các chức năng quản lý tài khoản và các diagram tương ứng \\ \hline
-        4 & Nguyễn Tô Quốc Việt & 2313898 & 100\% & Scenario cho nhóm Admin và các diagram tương ứng \\ \hline
-        5 & Lê Công Vinh & 2313912 & 100\% & Scenario cho nhóm IoT và các diagram tương ứng\\ \hline
+        3 & Nguyễn Tô Quốc Việt & 2313898 & 100\% & Scenario cho nhóm Admin và các diagram tương ứng \\ \hline
+        4 & Lê Công Vinh & 2313912 & 100\% & Scenario cho nhóm IoT và các diagram tương ứng\\ \hline
     \end{tabular}
     \end{adjustbox}
 \end{table}
@@ -295,67 +293,5 @@ FR6 & US5 & Class Diagram (User-Event Relation) \\ \hline
 \end{tabular}
 \caption{Liên kết giữa Yêu cầu, User Story và Diagram}
 \end{table}
-
-
-
-
-\section{Tổng quan dự án}
-
-\subsection{Bối cảnh dự án}
-
-\subsection{Mục tiêu dự án}
-
-\subsection{Stakeholders}
-
-\subsection{Phạm vi dự án}
-
-\subsection{Quy trình nghiệp vụ cốt lõi}
-
-\textbf{Định nghĩa Phiên gửi xe:}
-
-Phiên gửi xe là một chuỗi hành động và trạng thái liên tục của một phương tiện từ khi tiến vào bãi đỗ cho đến khi rời đi và hoàn tất nghĩa vụ tài chính. Vòng đời của một phiên gửi xe dành cho người dùng có tài khoản được chia thành 4 giai đoạn chính:
-
-\begin{itemize}
-    \item \textbf{Giai đoạn 1 - Khởi tạo phiên:} Khách hàng quẹt thẻ RFID (hoặc thẻ định danh) tại cổng vào. Hệ thống xác thực danh tính, đối chiếu biển số xe qua camera và khởi tạo một "Phiên gửi xe" mới trên cơ sở dữ liệu với trạng thái \textit{Đang hoạt động}, ghi nhận thời điểm bắt đầu.
-    
-    \item \textbf{Giai đoạn 2 - Cập nhật vị trí và Tính giờ đỗ:} Sau khi qua cổng, khách hàng di chuyển xe đến vị trí đỗ. Cảm biến IoT tại vị trí đỗ phát hiện có xe và gửi tín hiệu về Gateway. Hệ thống trung tâm liên kết vị trí đỗ này với phiên gửi xe vừa khởi tạo, đồng thời duy trì trạng thái đỗ để làm cơ sở tính toán thời gian thực tế.
-    
-    \item \textbf{Giai đoạn 3 - Kết thúc phiên:} Khách hàng di chuyển xe ra cổng và quẹt thẻ. Hệ thống đối chiếu dữ liệu cổng ra với cổng vào, xác nhận hợp lệ và đóng phiên gửi xe. Trạng thái phiên chuyển sang \textit{Đã hoàn tất}, đồng thời ghi nhận thời điểm kết thúc.
-    
-        \item \textbf{Giai đoạn 4 - Xử lý hậu kỳ:} Dựa trên tổng thời gian của phiên đỗ xe và chính sách giá đã thiết lập, 
-    hệ thống tự động tính toán chi phí cho phiên này. Chi phí này được cộng dồn vào tài khoản ghi nợ của khách hàng. 
-    Lúc này, phiên gửi xe sẽ được chuyển sang trạng thái \textit{Chờ thanh toán}. Sau khi khách hàng hoàn tất nghĩa vụ tài chính vào cuối tháng, phiên sẽ chính thức khép lại với trạng thái \textit{Đã thanh toán}.
-
-    \item \textbf{Giai đoạn ngoại lệ: } Trong quá trình hoạt động, nếu xảy ra sự cố (khách mất thẻ, xe lưu bãi quá thời gian quy định, lỗi cảm biến, ...), phiên gửi xe sẽ bị treo ở trạng thái \textit{Ngoại lệ}. 
-    Lúc này, cần sự can thiệp thủ công của nhân viên vận hành để xác minh và đóng phiên hợp lệ.
-\end{itemize}
-
-
-
-\section{Tổng quan chức năng và ranh giới hệ thống}
-\subsection{Tổng quan chức năng}
-
-\subsubsection{Nhóm chức năng hướng người dùng}
-
-\subsubsection{Nhóm chức năng hướng vận hành}
-
-
-
-\section{Ranh giới hệ thống}
-
-\subsubsection{Bên trong ranh giới hệ thống}
-
-\subsubsection{Bên ngoài ranh giới hệ thống}
-
-
-\section{Screnario và các diagram cho các nhóm chức năng}
-\subsection{Nhóm chức năng quản lý tài khoản}
-%\input{contents/screnario_quanly_tk.tex}
-
-
-
-\section{UI design}
-
-\section{Các non-interactive functional requirement}
 
 \end{document}
