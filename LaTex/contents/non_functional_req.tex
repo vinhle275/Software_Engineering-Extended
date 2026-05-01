@@ -1,0 +1,43 @@
+\section{Các non-functional requirement}
+
+\begin{itemize}
+    \item \textbf{NFR1 - Cập nhật trạng thái thời gian thực (Performance):} Hệ thống phải cập nhật trạng thái chỗ đỗ xe từ sensor lên giao diện người dùng trong thời gian không quá 5 giây kể từ khi sensor phát hiện thay đổi. % [cite: 209]
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: Độ trễ trung bình từ sensor $\rightarrow$ hiển thị $\le$ 5 giây; độ trễ tối đa $\le$ 10 giây. % [cite: 210]
+    \end{itemize}
+
+    \item \textbf{NFR2 - Khả năng chịu tải đồng thời (Scalability):} Hệ thống phải hoạt động ổn định trong giờ cao điểm khi lượng người dùng tăng đột biến (gần đầu giờ học, ngay lúc tan học). % [cite: 211]
+    Hệ thống phải hỗ trợ tối thiểu 500 người dùng đồng thời mà không suy giảm hiệu năng quá ngưỡng cho phép. % [cite: 212]
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: Thời gian phản hồi trung bình $\le$ 3 giây khi có 500 người dùng đồng thời, tỷ lệ lỗi < 1\%. % [cite: 213]
+    \end{itemize}
+
+    \item \textbf{NFR3 - Tính sẵn sàng (Availability):} Hệ thống phải duy trì hoạt động liên tục để đảm bảo kiểm soát ra vào bãi xe không bị gián đoạn. % [cite: 214]
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: Uptime tối thiểu 99.5\% theo tháng, tương đương thời gian ngừng hoạt động không quá 3.6 giờ/tháng. % [cite: 215]
+    \end{itemize}
+
+    \item \textbf{NFR4 - Tương thích đa thiết bị (Usability):} Giao diện hệ thống phải hiển thị và hoạt động chính xác trên cả thiết bị di động và máy tính để bàn, đảm bảo trải nghiệm người dùng nhất quán. % [cite: 216]
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: Giao diện hỗ trợ responsive từ độ phân giải 360px (mobile) đến 1920px (desktop), các chức năng cốt lõi phải sử dụng được đầy đủ trên cả hai loại thiết bị. % [cite: 217]
+    \end{itemize}
+
+    \item \textbf{NFR5 - Hỗ trợ đa ngôn ngữ (Usability):} Hệ thống phải hỗ trợ tiếng Việt và tiếng Anh để phục vụ cả người dùng trong nước và sinh viên/giảng viên quốc tế. % [cite: 218]
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: 100\% nội dung giao diện người dùng (label, thông báo, hướng dẫn) phải có bản dịch đầy đủ cho cả hai ngôn ngữ. % [cite: 219]
+        Người dùng có thể chuyển đổi ngôn ngữ mà không cần đăng nhập lại. % [cite: 220]
+    \end{itemize}
+
+
+
+    \item \textbf{NFR6 - Khả năng chịu lỗi (Fault Tolerance):} Hệ thống phải có cơ chế dự phòng để duy trì hoạt động cơ bản hoặc bảo toàn dữ liệu khi một thành phần (sensor, gateway hoặc kết nối mạng) gặp sự cố.
+    \vspace*{-5pt}
+    \begin{itemize}
+        \item Metric: Khi mất kết nối Internet, Gateway phải có khả năng lưu trữ tạm thời (local buffering) ít nhất 24 giờ dữ liệu và tự động đồng bộ lại khi có kết nối. Thời gian phục hồi hệ thống sau sự cố (MTTR) không quá 30 phút.
+    \end{itemize}
+\end{itemize}
