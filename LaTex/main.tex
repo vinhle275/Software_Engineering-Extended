@@ -43,6 +43,24 @@
   basicstyle=\ttfamily\small, % Dùng font chữ nhỏ hơn
   columns=fullflexible
 }
+
+\lstdefinestyle{python}{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{blue!70!black}\bfseries,
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{red!60!black},
+%   numbers=left,
+%   numberstyle=\tiny\color{gray},
+%   numbersep=8pt,
+  showstringspaces=false,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{black!20},
+  tabsize=4,
+  backgroundcolor=\color{black!2},
+}
+
 \usepackage[svgnames]{xcolor} % Cung cấp nhiều màu sắc hơn
 \tcbset{
   colback=AliceBlue,       % Màu nền xanh rất nhạt
@@ -294,4 +312,6 @@ FR6 & US5 & Class Diagram (User-Event Relation) \\ \hline
 \caption{Liên kết giữa Yêu cầu, User Story và Diagram}
 \end{table}
 
+\input{contents/code.tex}
+\input{contents/testing.tex}
 \end{document}

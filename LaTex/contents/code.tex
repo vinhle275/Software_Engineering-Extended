@@ -1,0 +1,98 @@
+\section{Implementation and Code Quality}
+\subsection{Code Listing}
+Link source code: \href{https://github.com}{Click here}
+\subsection{Short Inspection Summary}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{|l|X|}
+\hline
+\textbf{Tiêu chí} & \textbf{Mô tả} \\
+\hline
+Đặt tên rõ ràng & Các lớp (Event, EventManager), hàm (create\_event, delete\_event) và biến (event\_date, reminder\_minutes) được đặt tên có ý nghĩa, thể hiện rõ mục đích sử dụng. \\
+\hline
+Thụt lề nhất quán & Tuân theo chuẩn PEP 8: thụt lề 4 khoảng trắng; sử dụng dòng trống để phân tách các khối logic. \\
+\hline
+Chú thích và docstring & Mỗi lớp và các hàm công khai đều có docstring; comment được dùng để giải thích các logic không rõ ràng. \\
+\hline
+Nguyên lý trách nhiệm đơn & Lớp Event chỉ chứa dữ liệu; EventManager xử lý toàn bộ logic CRUD và kiểm tra dữ liệu. \\
+\hline
+Kiểm tra đầu vào & Sử dụng các hàm private riêng (\_validate\_title, \_validate\_datetime, \_validate\_reminder) giúp hàm create\_event rõ ràng hơn. \\
+\hline
+\end{tabularx}
+\caption{Đánh giá chất lượng mã nguồn}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{|l|l|X|X|}
+\hline
+\textbf{ID} & \textbf{Loại vấn đề} & \textbf{Vấn đề phát hiện} & \textbf{Cách khắc phục đề xuất} \\
+\hline
+I-01 & Naming & Dict \_events dùng tên quá chung (e dict) & Đổi thành \_event\_store hoặc \_event\_registry để rõ nghĩa hơn \\
+\hline
+I-02 & Missing check & create\_event không dùng strip() cho description trước khi lưu & Thêm description = description.strip() trước khi tạo Event \\
+\hline
+I-03 & Readability & to\_dict() không bao gồm trường created\_at, không nhất quán với constructor & Thêm 'created\_at': self.created\_at vào dict trả về \\
+\hline
+I-04 & Missing check & reminder\_minutes không có giới hạn trên; giá trị rất lớn vẫn được chấp nhận & Thêm kiểm tra giới hạn trên (ví dụ: <= 10080 cho tối đa 1 tuần) \\
+\hline
+I-05 & Documentation & list\_events() thiếu docstring mô tả kiểu trả về & Thêm annotation kiểu trả về List[Event] và bổ sung docstring \\
+\hline
+\end{tabularx}
+\caption{Kết quả peer-review}
+\end{table}
+
+\subsection{Code Smells and Refactoring}
+\subsubsection{Code Smell 1 - Long Method (create\_event)}
+\noindent\textbf{Vấn đề:} \\
+Hàm \texttt{create\_event} gọi ba hàm kiểm tra (validation) riêng biệt. Dù mỗi hàm đều nhỏ, nhưng khi hệ thống mở rộng, nhiều kiểm tra khác (ví dụ: kiểm tra sự kiện trùng lặp, kiểm tra định dạng địa điểm) sẽ tiếp tục được thêm trực tiếp vào \texttt{create\_event}, khiến hàm này trở nên dài và khó quản lý.
+
+\vspace{5pt}
+
+\noindent\textbf{Refactoring:} \\
+Tách ra một hàm duy nhất \texttt{\_validate\_all(title, date, time, reminder)} để gọi tất cả các hàm kiểm tra con. Khi đó, \texttt{create\_event} chỉ cần gọi \texttt{\_validate\_all(...)} để giữ độ dài hàm dưới 10 dòng. Cách này tuân theo mẫu refactoring \textit{Extract Method}.
+
+\begin{lstlisting}[style=python]
+# Before (smell)
+def create_event(self, title, date, time, ...):
+    self._validate_title(title)
+    self._validate_datetime(date, time)
+    self._validate_reminder(reminder_minutes)
+    # 10+ more lines 
+
+# After (refactored)
+def _validate_all(self, title, date, time, reminder):
+    self._validate_title(title)
+    self._validate_datetime(date, time)
+    self._validate_reminder(reminder)
+
+def create_event(self, title, date, time, ...):
+    self._validate_all(title, date, time, reminder_minutes)
+    new_event = Event(...)
+    self._events[new_event.event_id] = new_event
+    return new_event
+\end{lstlisting}
+
+\subsubsection{Code Smell 2 - Duplicate Logic (get\_event reuse)}
+\noindent\textbf{Vấn đề:} \\
+Cả \texttt{delete\_event} và các hàm trong tương lai như \texttt{update\_event} đều cần lấy sự kiện theo ID. Nếu logic tìm kiếm (kiểm tra tồn tại key, ném lỗi \texttt{KeyError}) được viết trực tiếp trong từng hàm, nó sẽ bị lặp lại.
+
+\vspace{6pt}
+
+\noindent\textbf{Refactoring:} \\
+Hàm \texttt{get\_event} hiện tại đã gom toàn bộ logic này. Cách cải thiện là đảm bảo mọi hàm cần truy cập sự kiện đều gọi \texttt{get\_event(event\_id)} thay vì truy cập trực tiếp \texttt{self.\_events[event\_id]}. Điều này tuân theo nguyên lý \textit{DRY (Don't Repeat Yourself)}.
+
+\begin{lstlisting}[style=python]
+# Before (smell) - direct dict access in delete_event
+def delete_event(self, event_id):
+    if event_id not in self._events:          # duplicated check
+        raise KeyError(...)
+    del self._events[event_id]
+
+# After (refactored) - reuse get_event
+def delete_event(self, event_id):
+    event = self.get_event(event_id)          # centralized check
+    del self._events[event_id]
+    return True
+\end{lstlisting}

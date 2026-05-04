@@ -1,0 +1,77 @@
+\section{Software Testing and Quality Assurance}
+\subsection{Các Functions / User Stories Testing}
+\begin{itemize}
+    \item \textbf{US-1:} Là người dùng, tôi muốn tạo một sự kiện để có thể theo dõi các hoạt động sắp tới.
+    \item \textbf{US-2:} Là người dùng, tôi muốn nhận thông báo lỗi khi nhập dữ liệu không hợp lệ để đảm bảo danh sách sự kiện luôn chính xác.
+    \item \textbf{US-3:} Là dịch vụ thông báo, tôi muốn các nhắc nhở được kích hoạt đúng thời điểm để người dùng được thông báo đúng lịch.
+\end{itemize}
+\subsection{Test Plan}
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{|l|X|}
+\hline
+\textbf{Thuộc tính} & \textbf{Chi tiết} \\
+\hline
+Mục tiêu & Xác minh rằng SERS tạo sự kiện đúng với dữ liệu hợp lệ, từ chối dữ liệu không hợp lệ với thông báo lỗi rõ ràng, và kích hoạt nhắc nhở đúng thời điểm đã lên lịch. \\
+\hline
+Mức kiểm thử & Unit test cho các phương thức của EventManager; System test cho toàn bộ luồng gửi nhắc nhở. \\
+\hline
+Phương pháp kiểm thử & Black-box để kiểm tra tính đúng đắn chức năng; White-box (luồng xóa) để xác minh trạng thái nội bộ sau khi thực hiện. \\
+\hline
+Môi trường kiểm thử & Python 3.11 với framework unittest; sử dụng mock datetime để kiểm tra thời gian nhắc nhở. \\
+\hline
+Tiêu chí đạt & Tất cả đầu ra mong đợi khớp với kết quả thực tế; không có ngoại lệ chưa được xử lý. \\
+\hline
+\end{tabularx}
+\caption{Kế hoạch kiểm thử hệ thống SERS}
+\end{table}
+\subsection{Test Cases}
+
+\begin{table}[H]
+\centering
+\begin{tabularx}{\linewidth}{|l|X|X|X|l|l|}
+\hline
+\textbf{Test ID} & \textbf{Mô tả} & \textbf{Input} & \textbf{Kết quả mong đợi} & \textbf{Loại test} & \textbf{Mức} \\
+\hline
+
+T1 & Tạo sự kiện với dữ liệu hợp lệ &
+title="Team Meeting" \newline date="2026-05-10" \newline time="09:00" & 
+Trả về đối tượng Event với các trường chính xác; sự kiện được lưu trong manager &
+Black-box & Unit \\
+\hline
+
+T2 & Tạo sự kiện với tiêu đề rỗng &
+title="" \newline date="2026-05-10" \newline time="09:00" &
+Phát sinh ValueError: "Event title cannot be empty." &
+Black-box & Unit \\
+\hline
+
+T3 & Tạo sự kiện với ngày trong quá khứ &
+title="Past Event" \newline date="2020-01-01" \newline time="08:00" &
+Phát sinh ValueError: "Event must be scheduled in the future." &
+Black-box & Unit \\
+\hline
+
+T4 & Xóa sự kiện tồn tại &
+event\_id hợp lệ từ T1 &
+Trả về True; sự kiện không còn trong list\_events() &
+White-box & Unit \\
+\hline
+
+T5 & Kích hoạt nhắc nhở đúng thời điểm &
+event\_time="10:00" \newline now="09:45" \newline reminder=15 min &
+Thông báo được kích hoạt chính xác lúc 09:45 &
+Black-box & System \\
+\hline
+
+\end{tabularx}
+\caption{Danh sách test case}
+\end{table}
+
+
+\subsection{ Test Automation Approach}
+Các test case ở trên có thể được tự động hóa bằng cách sử dụng framework unittest tích hợp sẵn của Python hoặc pytest. Bên dưới là một ví dụ kiểm thử tự động tiêu biểu cho T1 và T2.
+
+Việc chạy pytest trong quy trình CI/CD (ví dụ: GitHub Actions) sau mỗi lần commit giúp phát hiện sớm các lỗi hồi quy (regression) và tự động ghi lại kết quả kiểm thử. Báo cáo độ bao phủ kiểm thử (test coverage) có thể được tạo bằng pytest-cov để theo dõi những dòng mã đã được thực thi.
+
+Link source code: \href{https://github.com}{Click here}
