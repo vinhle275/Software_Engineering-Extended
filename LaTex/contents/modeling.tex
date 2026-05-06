@@ -1,0 +1,57 @@
+\section{Process Model and Planning}
+\subsection{Lựa chọn mô hình phát triển}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Mô hình được chọn:} Scrum (Agile).
+    \item \textbf{Lý do nhóm chọn mô hình này:} 
+    \begin{itemize}
+        \item \textit{Phù hợp với tính chất dự án:} SERS yêu cầu phát triển nhanh các tính năng cốt lõi (tạo, sửa, xóa sự kiện) và có thể linh hoạt mở rộng. Việc áp dụng Scrum với các Sprint ngắn (2 tuần) giúp nhóm làm việc tập trung và dễ dàng đối phó với những thay đổi về thiết kế (ví dụ: cập nhật thêm class \texttt{NotificationService} hay \texttt{Reminder}).
+        \item \textit{Tối ưu hóa nguồn lực nhóm 4 người:} Quy trình Scrum phân chia task minh bạch, giúp 4 thành viên dễ dàng phối hợp giữa việc vẽ Diagram, lập trình logic và kiểm thử (Testing) mà không bị chồng chéo công việc.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Quản lý Backlog và Ước lượng thời gian}
+Nhóm sử dụng kỹ thuật \textbf{Planning Poker} để đánh giá độ phức tạp của từng User Story (US).
+
+\subsubsection*{Product Backlog (Đồng bộ với MoSCoW)}
+\begin{table}[hbt!]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
+        \hline
+        \textbf{ID} & \textbf{Hạng mục (User Story)} & \textbf{Độ ưu tiên} & \textbf{Story Points} & \textbf{Trạng thái} \\ \hline
+        US1 & Tạo sự kiện mới với các thông tin (tiêu đề, ngày, giờ). & Must have & 5 & Sprint 1 \\ \hline
+        US2 & Chỉnh sửa và cập nhật chi tiết sự kiện đã có. & Must have & 8 & Sprint 1 \\ \hline
+        US3 & Xóa sự kiện khỏi danh sách. & Must have & 3 & Sprint 1 \\ \hline
+        US4 & Hệ thống tự động gửi thông báo nhắc nhở. & Must have & 13 & Sprint 2 \\ \hline
+        US5 & Mời người dùng khác tham gia sự kiện. & Could have & 8 & Backlog \\ \hline
+        US6 & Xem danh sách sự kiện theo lịch trình. & Should have & 5 & Backlog \\ \hline
+    \end{tabularx}
+    \caption{Danh sách Product Backlog tổng thể}
+\end{table}
+
+\subsubsection*{Sprint Backlog (Sprint 1 - Kéo dài 2 tuần)}
+\textbf{Mục tiêu Sprint:} Hoàn thiện logic nền tảng (CRUD) và vòng đời của sự kiện.
+Để giám sát chặt chẽ, nhóm phân rã công việc bám sát vào các Diagram đã thiết kế:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Task 1.1 [US1, US2]:} Hiện thực cấu trúc dữ liệu cho các class \texttt{User}, \texttt{Event}, \texttt{Reminder} dựa trên \textbf{Class Diagram (Hình 4)}. (\textit{3 SP})
+    \item \textbf{Task 1.2 [US1]:} Xây dựng luồng xử lý tạo sự kiện mới, bao gồm logic kiểm tra tính hợp lệ dữ liệu theo \textbf{Sequence Diagram (Hình 1)}. (\textit{5 SP})
+    \item \textbf{Task 1.3 [US2, US3]:} Hiện thực chức năng chỉnh sửa và xóa sự kiện theo \textbf{Sequence Diagram (Hình 2)}. (\textit{5 SP})
+    \item \textbf{Task 1.4 [US1, US2]:} Quản lý chuyển đổi trạng thái của Event (Draft $\rightarrow$ Scheduled $\rightarrow$ Editing...) bám sát \textbf{State Diagram (Hình 3)}. (\textit{1 SP})
+    \item \textbf{Task 1.5 [US1, US3]:} Viết Unit Test và refactor mã nguồn. (\textit{2 SP})
+\end{itemize}
+
+\subsection{Theo dõi tiến độ}
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{|l|c|c|p{7.5cm}|}
+        \hline
+        \textbf{Thời gian} & \textbf{SP Dự kiến} & \textbf{SP Thực tế} & \textbf{Ghi chú tiến độ} \\ \hline
+        Ngày 1 & 16 & 16 & Họp Sprint Planning, phân rã task theo UML. \\ \hline
+        Ngày 4 & 13 & 13 & Hoàn thành Task 1.1 (Khởi tạo các Class lõi). \\ \hline
+        Ngày 8 & 8 & 8 & Xong Task 1.2 (Pass luồng tạo Event - Hình 1). \\ \hline
+        Ngày 12 & 3 & 3 & Xong Task 1.3 \& 1.4 (Sửa/Xóa Event \& Cập nhật State). \\ \hline
+        Ngày 14 & 0 & 0 & Hoàn thành Unit Test (Task 1.5). Kết thúc Sprint 1. \\ \hline
+    \end{tabular}
+    \caption{Tiến độ thực hiện Sprint 1}
+\end{table}
