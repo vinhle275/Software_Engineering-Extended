@@ -1,0 +1,47 @@
+\section{Reflection and Retrospective}
+
+Vào tối thứ Tư ngày 06/05/2026, nhóm tổ chức một buổi họp ngắn để nhìn lại toàn bộ quá trình thực hiện dự án Smart Event Reminder System (SERS). Mục tiêu của buổi họp không chỉ là kiểm tra phần nào đã hoàn thành, mà còn để mỗi thành viên nêu lại góc nhìn của mình về cách nhóm chia việc, phối hợp, xử lý phạm vi và giữ sự nhất quán giữa các phần trong báo cáo. Vì đây là một dự án thiên về quy trình công nghệ phần mềm hơn là xây dựng một sản phẩm hoàn chỉnh, nhóm tập trung đánh giá cách các phần Requirements, Planning, Modeling, Architecture, Implementation và Testing liên kết với nhau. Phần retrospective dưới đây được trình bày theo khung Start / Stop / Continue để rút ra những điểm cần cải thiện cho các dự án sau.
+
+\subsection{Team Retrospective: Start / Stop / Continue}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{|l|X|}
+\hline
+\textbf{Category} & \textbf{Team Reflection} \\
+\hline
+\textbf{Start} & Nhóm nên bắt đầu thống nhất phạm vi, template trình bày và mối liên hệ giữa các phần ngay từ giai đoạn đầu. Sau mỗi mốc chính, nhóm cũng nên có một bước review ngắn để kiểm tra xem requirements, UML diagrams, architecture, code sample và test cases có đang khớp với nhau hay không. Điều này giúp phát hiện sớm những chỗ lệch trước khi ghép báo cáo cuối cùng. \\
+\hline
+\textbf{Stop} & Nhóm nên hạn chế việc mỗi thành viên làm phần của mình quá độc lập trong thời gian dài mà không cập nhật tiến độ cho các thành viên khác. Cách làm này có thể khiến nội dung giữa các phần bị lệch, hoặc một thành viên vô tình làm luôn phần việc của người khác. Nhóm cũng nên tránh để việc chỉnh sửa định dạng và kiểm tra tính nhất quán dồn vào cuối deadline. \\
+\hline
+\textbf{Continue} & Nhóm nên tiếp tục chia công việc theo thế mạnh của từng thành viên và dùng các artefact như backlog, UML diagrams và prototype nhỏ để giữ cho dự án có cấu trúc rõ ràng. Việc chọn phạm vi vừa đủ, chỉ hiện thực một mẫu code minh họa thay vì cố xây dựng toàn bộ hệ thống, là phù hợp với yêu cầu của bài tập. Nhóm cũng nên tiếp tục sử dụng các tài liệu dùng chung để các thành viên dễ theo dõi tiến độ và đóng góp vào báo cáo. \\
+\hline
+\end{tabularx}
+\caption{Tổng kết retrospective của nhóm theo khung Start / Stop / Continue}
+\end{table}
+
+\subsection{Lessons Learned}
+
+Qua dự án này, nhóm nhận ra rằng công nghệ phần mềm không bắt đầu từ code mà bắt đầu từ việc hiểu đúng vấn đề, xác định đúng phạm vi và giữ cho các quyết định thiết kế nhất quán với yêu cầu ban đầu. Một user story tốt cần được phản ánh trong acceptance criteria, trong sơ đồ UML, trong kiến trúc hệ thống, trong mẫu hiện thực và cuối cùng là trong test case. Nếu các phần này được viết tách rời, báo cáo có thể vẫn đầy đủ về hình thức nhưng thiếu một dòng chảy kỹ thuật rõ ràng. Scrum và backlog giúp nhóm chia nhỏ công việc, nhưng chỉ thật sự hiệu quả khi task ownership, thời điểm review và tiêu chí hoàn thành được thống nhất rõ. Nhóm cũng học được rằng việc không xây dựng một prototype hoàn chỉnh không phải là thiếu sót trong phạm vi bài này, vì yêu cầu của giảng viên cho phép concept, mock data và pseudo-code. Tuy nhiên, khi chọn hướng minh họa, nhóm vẫn cần trình bày trung thực ranh giới giữa thiết kế đầy đủ trên báo cáo và phần code sample đã hiện thực. Cải tiến quan trọng nhất cho dự án sau không phải là mở rộng phạm vi hệ thống, mà là làm rõ mối liên kết giữa yêu cầu, mô hình, mẫu hiện thực và kiểm thử ngay từ đầu.
+
+\subsection{Individual Reflections}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{|l|p{4cm}|X|}
+\hline
+\textbf{Member} & \textbf{Role} & \textbf{Reflection} \\
+\hline
+Nguyễn Văn Hùng & Implementation and Code Quality; Software Testing and Quality Assurance & Trong phần hiện thực và kiểm thử, em học được rằng việc tách validation thành các hàm riêng và suy nghĩ kỹ về edge cases ngay từ đầu giúp code dễ bảo trì và ít lỗi hơn. Nếu được làm lại, em sẽ thay các lệnh \texttt{print} bằng logging chuẩn, hiện thực trực tiếp phần code đã refactor thay vì chỉ mô tả, và bổ sung thêm white-box tests để kiểm tra trạng thái nội bộ của hệ thống. \\
+\hline
+Trần Minh Trí & Process Model and Planning; Architecture Design & Qua phần quy trình Scrum và thiết kế kiến trúc phân tầng, em học được cách lập kế hoạch linh hoạt và cách tách biệt các lớp để hệ thống dễ bảo trì hơn. Nếu có cơ hội làm lại, em sẽ phân tích sâu hơn cơ chế quét của Notification Worker để đảm bảo đáp ứng tốt hơn yêu cầu nhắc nhở trong vòng 60 giây của NFR1. \\
+\hline
+Nguyễn Tô Quốc Việt & Software Testing and Quality Assurance; Reflection and Retrospective & Trong quá trình tổng hợp retrospective, em nhận ra rằng việc phân chia nhiệm vụ trên bảng phân công là chưa đủ nếu nhóm không cập nhật rõ trạng thái thực hiện của từng phần. Khi phần testing đã được hỗ trợ bởi thành viên khác, em chuyển trọng tâm sang kiểm tra tính nhất quán của toàn bộ báo cáo và rút ra bài học rằng communication sớm quan trọng không kém bản thân việc chia task. \\
+\hline
+Lê Công Vinh & Requirements Engineering; System Modeling & Qua phần Requirements Engineering và System Modeling, em rèn luyện được kỹ năng tư duy thiết kế phần mềm và đảm bảo sự liên kết từ nhu cầu thực tế của người dùng đến mô hình hệ thống. Nếu được làm lại, em sẽ phân tích sâu hơn các kịch bản ngoại lệ trong State Diagram và Sequence Diagram để cải thiện khả năng xử lý lỗi của hệ thống. \\
+\hline
+\end{tabularx}
+\caption{Phản ánh cá nhân của từng thành viên}
+\end{table}
